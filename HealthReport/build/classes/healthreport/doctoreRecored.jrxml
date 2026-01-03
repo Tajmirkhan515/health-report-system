@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="79b8f60c-d0b0-4ac9-bbb6-1e8f9d93f8d8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="44"/>
+	<parameter name="dr_id" class="java.lang.String"/>
+	<parameter name="dr_name" class="java.lang.String"/>
+	<parameter name="dr_spacialization" class="java.lang.String"/>
+	<parameter name="dr_address" class="java.lang.String"/>
+	<parameter name="total_tests" class="java.lang.String"/>
+	<parameter name="total_patient" class="java.lang.String"/>
+	<parameter name="total_price" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="198" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<textField>
+				<reportElement x="111" y="10" width="100" height="20" uuid="bbd26e7e-653d-4e7c-82c2-8288ccce63ca"/>
+				<textFieldExpression><![CDATA[$P{dr_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="40" width="100" height="20" uuid="b6ee4b7c-f131-4a17-b961-214327341c62"/>
+				<textFieldExpression><![CDATA[$P{dr_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="409" y="10" width="100" height="20" uuid="9dcec69d-8846-48a8-994c-c9c1f696879a"/>
+				<textFieldExpression><![CDATA[$P{dr_spacialization}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="409" y="40" width="100" height="20" uuid="c323009e-0f16-4b23-966a-0125ed01f640"/>
+				<textFieldExpression><![CDATA[$P{dr_address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="20" uuid="5d10586f-e3b8-4567-a0c8-67aa16788f60"/>
+				<text><![CDATA[Doctore Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="dac2f84d-b3b3-4047-9076-32fff7069c27"/>
+				<text><![CDATA[Doctore Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="10" width="100" height="20" uuid="20d0a872-2498-4af0-ad4f-c14023d69be7"/>
+				<text><![CDATA[Spacialization]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="40" width="100" height="20" uuid="f06f0e79-8021-4016-867b-6cf3e293a96b"/>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1" uuid="ed772f4f-c7aa-41ce-b60e-a22891b43df4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="95" width="554" height="1" uuid="8e49c2f7-6ad8-4436-b981-34d9726900e2"/>
+			</line>
+			<line>
+				<reportElement x="0" y="70" width="555" height="1" uuid="0ade1e41-681a-48b7-95fe-188712dbb24c"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="177" splitType="Stretch">
+			<textField>
+				<reportElement x="211" y="30" width="100" height="20" uuid="460cebcb-822e-4747-8b75-59e46b1617d5"/>
+				<textFieldExpression><![CDATA[$P{total_tests}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="63" width="100" height="20" uuid="da90b733-2bc6-4947-b014-715f3e6cc084"/>
+				<textFieldExpression><![CDATA[$P{total_patient}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="104" width="100" height="20" uuid="afbc8ae3-6bc1-40ff-a7ad-4db55da4ad09"/>
+				<textFieldExpression><![CDATA[$P{total_price}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="63" y="30" width="100" height="20" uuid="5ec17521-dc1b-4a94-a504-8112b840aed8"/>
+				<text><![CDATA[Total Tests]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="63" width="100" height="20" uuid="beda287b-784e-4c08-8336-5b8c21c8d20f"/>
+				<text><![CDATA[Total Patient]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="104" width="100" height="20" uuid="08121ed4-6c48-4a48-9bac-821ca5781723"/>
+				<text><![CDATA[Commession]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="89" width="554" height="1" uuid="365865b5-5ede-4f4c-988b-8dcc8a0ef96b"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

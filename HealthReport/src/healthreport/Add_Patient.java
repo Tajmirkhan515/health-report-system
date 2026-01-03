@@ -1,0 +1,617 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package healthreport;
+
+import Toast.AndroidLikeToast;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.print.event.PrintJobEvent;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+/**
+ *
+ * @author Tajmirkhan
+ */
+public class Add_Patient extends javax.swing.JInternalFrame {
+ DataBase db;
+ ArrayList<comboBoxDR_GetterS> arraylist;
+ String ptn_name="",ptn_gender,ptn_address,ptn_id,ptn_age;
+ String dr_id="0";
+ String apm_id;
+ DefaultTableModel model;
+    /**
+     * Creates new form Add_Patient
+     */
+    public Add_Patient() {
+        initComponents();
+       search_test_tf.setUI(new JTextFieldHintUI("Search...", Color.gray));  
+        db=new DataBase();
+        getOnlyId();
+        arraylist=new ArrayList<>();
+        fillDrComboBox();
+        buttonGroup1.add(male_rbtn);
+        buttonGroup1.add(female_rbtn);
+        model=(DefaultTableModel)select_test_table.getModel();
+        addDataIntoSelectionTestTable();
+        
+    
+    }
+     
+    
+   void getDataFromAppmTable(){
+       ResultSet rs=db.retriveDataFromAppointmentTableOfCurrentPatient();
+      try {
+          while(rs.next()){
+              
+                ptn_id=rs.getString(Utilities.PTN_ID);
+                //dr_id=rs.getString(Utilities.PTN_NAME);
+                apm_id=rs.getString(Utilities.APM_ID);
+//                ptn_age_lbl.setText(rs.getString(Utilities.PTN_AGE));
+//                ptn_gender_lbl.setText(rs.getString(Utilities.PTN_GENDER));
+//                refer_lbl.setText(rs.getString(Utilities.DR_NAME));
+//                current_td_lbl.setText(rs.getString(Utilities.REPORT_DATE_TIME));
+                
+          }
+      } catch (SQLException ex) {
+          Logger.getLogger(Add_AppointmentDetails.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
+    
+    void addDataIntoSelectionTestTable(){
+         model.setRowCount(0);
+           ResultSet rs=db.retriveDataFromMainTest();
+        //dr_table.setModel(DbUtils.resultSetToTableModel(rs));
+         
+    try {    
+        while(rs.next()){
+           // System.out.println(rs.getString(Utilities.TST_NAME));
+            model.addRow(new Object[]{false,rs.getInt(Utilities.TST_ID),rs.getString(Utilities.TST_NAME)});
+        }
+//        dr_table.setRowSelectionAllowed(true);
+        select_test_table.getTableHeader().setReorderingAllowed(true);
+    } catch (Exception ex) {
+        System.out.println(ex.toString());
+    }
+    
+    }
+      void getOnlyId(){
+            ResultSet rs=db.retrivePatientID();
+           ptn_id="1";
+     try {
+         while(rs.next()){
+             int k;
+            k=rs.getInt(Utilities.PTN_ID);
+            k++;
+            ptn_id=Integer.toString(k);
+         }
+     } catch (Exception ex) {
+System.out.println(ex.toString());
+     }
+      }
+    
+    void getDataFromTextField(){
+        ptn_name=ptn_name_tf.getText();
+        ptn_address=ptn_address_tf.getText();
+        ptn_age=ptn_age_tf.getText();
+        ptn_gender=getGender();
+    }
+   
+    
+    void fillDrComboBox(){
+        ResultSet rs=db.namAndIdFromDoctorTable();
+     try {
+         while(rs.next()){
+             comboBoxDR_GetterS data=new comboBoxDR_GetterS();
+             data.setDr_id(rs.getInt(Utilities.DR_ID));
+             data.setDr_name(rs.getString(Utilities.DR_NAME));
+             dr_combobox.addItem(rs.getString(Utilities.DR_NAME));
+             arraylist.add(data);
+         }
+     } catch (SQLException ex) {
+         Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }
+    String getGender()
+{
+    if(male_rbtn.isSelected())
+    {
+        return "Male";
+    }
+    else if(female_rbtn.isSelected())
+    {
+        return "Female";
+    }
+    else
+    {
+        return "";
+    }
+}
+    
+     private void filterTable(String query){
+         TableRowSorter<DefaultTableModel> tr=new TableRowSorter<DefaultTableModel>(model);
+         select_test_table.setRowSorter(tr);
+         tr.setRowFilter(RowFilter.regexFilter("(?i)"+query));
+     }
+
+    
+ 
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        female_rbtn = new javax.swing.JRadioButton();
+        jLabel8 = new javax.swing.JLabel();
+        ptn_name_tf = new javax.swing.JTextField();
+        ptn_age_tf = new javax.swing.JTextField();
+        male_rbtn = new javax.swing.JRadioButton();
+        ptn_address_tf = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        dr_combobox = new javax.swing.JComboBox();
+        next_btn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        select_test_table = new javax.swing.JTable();
+        search_test_tf = new javax.swing.JTextField();
+
+        setBackground(new java.awt.Color(173, 31, 31));
+        setClosable(true);
+        setResizable(true);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBackground(new java.awt.Color(173, 31, 31));
+
+        jPanel2.setBackground(new java.awt.Color(173, 31, 31));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Patient Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Age");
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Name");
+
+        female_rbtn.setBackground(new java.awt.Color(173, 31, 31));
+        female_rbtn.setForeground(new java.awt.Color(255, 255, 255));
+        female_rbtn.setText("Female");
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Gender");
+
+        ptn_name_tf.setBackground(new java.awt.Color(109, 12, 12));
+        ptn_name_tf.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        ptn_name_tf.setForeground(new java.awt.Color(255, 255, 255));
+        ptn_name_tf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptn_name_tfActionPerformed(evt);
+            }
+        });
+
+        ptn_age_tf.setBackground(new java.awt.Color(109, 12, 12));
+        ptn_age_tf.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        ptn_age_tf.setForeground(new java.awt.Color(255, 255, 255));
+        ptn_age_tf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptn_age_tfActionPerformed(evt);
+            }
+        });
+
+        male_rbtn.setBackground(new java.awt.Color(173, 31, 31));
+        male_rbtn.setForeground(new java.awt.Color(255, 255, 255));
+        male_rbtn.setText("Male");
+        male_rbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                male_rbtnActionPerformed(evt);
+            }
+        });
+
+        ptn_address_tf.setBackground(new java.awt.Color(109, 12, 12));
+        ptn_address_tf.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        ptn_address_tf.setForeground(new java.awt.Color(255, 255, 255));
+        ptn_address_tf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptn_address_tfActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Address");
+
+        jPanel3.setBackground(new java.awt.Color(173, 31, 31));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Referd By", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        dr_combobox.setBackground(new java.awt.Color(109, 12, 12));
+        dr_combobox.setForeground(new java.awt.Color(109, 12, 12));
+        dr_combobox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "itself" }));
+        dr_combobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                dr_comboboxItemStateChanged(evt);
+            }
+        });
+        dr_combobox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dr_comboboxMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dr_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dr_combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        next_btn.setForeground(new java.awt.Color(109, 12, 12));
+        next_btn.setText("Save");
+        next_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                next_btnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ptn_address_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel8))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(ptn_age_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(male_rbtn)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(female_rbtn))
+                                        .addComponent(ptn_name_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(97, 97, 97)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(next_btn)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(ptn_name_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(ptn_age_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(ptn_address_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(male_rbtn)
+                    .addComponent(female_rbtn))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(next_btn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(173, 31, 31));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Tests", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel4.setForeground(new java.awt.Color(173, 31, 31));
+
+        select_test_table.setBackground(new java.awt.Color(173, 31, 31));
+        select_test_table.setForeground(new java.awt.Color(255, 255, 255));
+        select_test_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Selecte", "ID", "Title 3"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(select_test_table);
+        if (select_test_table.getColumnModel().getColumnCount() > 0) {
+            select_test_table.getColumnModel().getColumn(0).setMinWidth(20);
+            select_test_table.getColumnModel().getColumn(0).setMaxWidth(50);
+            select_test_table.getColumnModel().getColumn(1).setMinWidth(40);
+            select_test_table.getColumnModel().getColumn(1).setPreferredWidth(40);
+            select_test_table.getColumnModel().getColumn(1).setMaxWidth(70);
+        }
+
+        search_test_tf.setBackground(new java.awt.Color(109, 12, 12));
+        search_test_tf.setForeground(new java.awt.Color(255, 255, 255));
+        search_test_tf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_test_tfActionPerformed(evt);
+            }
+        });
+        search_test_tf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                search_test_tfKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                search_test_tfKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(search_test_tf, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(search_test_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.ipady = 23;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 79, 77);
+        getContentPane().add(jPanel1, gridBagConstraints);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void ptn_age_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptn_age_tfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptn_age_tfActionPerformed
+
+    private void ptn_name_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptn_name_tfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptn_name_tfActionPerformed
+
+    private void male_rbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_male_rbtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_male_rbtnActionPerformed
+
+    private void dr_comboboxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dr_comboboxMouseClicked
+       
+    }//GEN-LAST:event_dr_comboboxMouseClicked
+int i=0;
+    private void dr_comboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dr_comboboxItemStateChanged
+       String item=dr_combobox.getSelectedItem().toString();
+        if(i==1){
+            int a=dr_combobox.getSelectedIndex()-1;
+        //JOptionPane.showMessageDialog(null,item+"  dd  "+arraylist.get(a).getDr_id());   
+           dr_id=Integer.toString(arraylist.get(a).getDr_id());
+           
+        i=0;// TODO add your handling code here:
+        }else{
+            i++;
+        }
+    }//GEN-LAST:event_dr_comboboxItemStateChanged
+ 
+     void onlyCheckedData(){
+         String tdet_id="0";
+         for (int i = 0; i < select_test_table.getRowCount(); i++) {
+     Boolean isChecked = Boolean.valueOf(select_test_table.getValueAt(i, 0).toString());
+
+     if (isChecked) {
+         //select_test_table[i,0].setSelected(false);
+         select_test_table.setValueAt(false, i, 0); // unchecked the colum in Table
+        //get the values of the columns you need.
+         //System.out.println(select_test_table.getValueAt(i,1).toString());
+          String tst_id=select_test_table.getValueAt(i,1).toString(); 
+            System.out.println(tst_id);
+          ResultSet rs=db.getDataFromchildTableWithHelpOfForeignKey(tst_id);
+         try {
+              tdet_id="0";
+             while(rs.next()){
+                 tdet_id=rs.getString(Utilities.TDET_ID);
+                 if(!tdet_id.equals("")){
+                     System.out.println("TDETID if  "+Utilities.TDET_ID);
+                     db.insertIntoAppDetailsTable(apm_id,tst_id," ",tdet_id);
+                     tdet_id="";
+                 }   
+             }
+             if(tdet_id.equals("0")){
+             db.insertIntoAppDetailsTable(apm_id,tst_id," ",tdet_id);
+             }
+         } catch (SQLException ex) {
+             System.out.println(ex.toString());
+         }
+              
+    } else {
+        //System.out.printf("Row %s is not checked \n", i);
+    }
+}
+
+     }
+    
+    private void next_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next_btnActionPerformed
+       
+        getDataFromTextField();
+        if(ptn_name.equals("") || dr_id.equals("")){
+      JOptionPane.showMessageDialog(null,"selec ");
+  } else{
+         db.insertIntoPatientTable(ptn_id,ptn_age,ptn_name,ptn_gender,ptn_address);
+         db.InsertIntoAppointmentTable(dr_id, ptn_id);
+           getOnlyId();
+           getDataFromAppmTable();
+           onlyCheckedData();
+           ToastMessage("Patient Added Successfully");
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+     int dialogResult = JOptionPane.showConfirmDialog (null, "Patient Medical Recored Number :"+apm_id+"\n Do You Add New Patient?","Warning",dialogButton);
+       if(dialogResult == JOptionPane.YES_OPTION){
+       Add_Patient patient=new Add_Patient(); 
+       try{
+           patient.getContentPane().setBackground(new Color(173,31,31));
+           patient.setMaximum(true);
+       }catch(Exception d){
+           
+       }
+       this.getDesktopPane().add(patient);
+//       Dimension dimension=getDesktopPane().getSize();
+//       Dimension dd=patient.getSize();
+//       patient.setLocation((dimension.width-dd.width)/2, (dimension.height-dd.height)/2);
+        patient.setVisible(true);
+         this.dispose();
+                }
+       else
+           {
+      this.dispose();
+            }
+  } 
+    }//GEN-LAST:event_next_btnActionPerformed
+private void ToastMessage(String value){
+        final JDialog dialog = new AndroidLikeToast(Add_Patient.this, true, value);
+                Timer timer = new Timer(AndroidLikeToast.LENGTH_SHORT, new ActionListener() {
+ 
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dialog.setVisible(false);
+                        dialog.dispose();
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
+ 
+                dialog.setVisible(true); 
+    }
+    private void ptn_address_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptn_address_tfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptn_address_tfActionPerformed
+
+    private void search_test_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_test_tfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_search_test_tfActionPerformed
+
+    private void search_test_tfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_test_tfKeyPressed
+       
+    }//GEN-LAST:event_search_test_tfKeyPressed
+
+    private void search_test_tfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_test_tfKeyReleased
+       filterTable(search_test_tf.getText().toLowerCase());        // TODO add your handling code here:
+    }//GEN-LAST:event_search_test_tfKeyReleased
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox dr_combobox;
+    private javax.swing.JRadioButton female_rbtn;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton male_rbtn;
+    private javax.swing.JButton next_btn;
+    private javax.swing.JTextField ptn_address_tf;
+    private javax.swing.JTextField ptn_age_tf;
+    private javax.swing.JTextField ptn_name_tf;
+    private javax.swing.JTextField search_test_tf;
+    private javax.swing.JTable select_test_table;
+    // End of variables declaration//GEN-END:variables
+}
