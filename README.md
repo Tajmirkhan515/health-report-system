@@ -43,6 +43,10 @@ This project is shared for **academic review and evaluation purposes only**.
 The codebase represents an older implementation and may not follow modern
 best practices.
 
+## LAB Contact
+Name: Abbas lab and diagnostic center
+Email: abbashospitalbk@gmail.com
+
 ## License
 Copyright © 2018–2026 Tajmir Khan  
 All rights reserved.
